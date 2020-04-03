@@ -1,0 +1,35 @@
+// Creating map object
+var map = L.map("map", {
+  center: [39.9258333, -74.75],
+  zoom: 9
+});
+
+L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.streets",
+  accessToken: API_KEY
+}).addTo(map);
+
+
+// Our style object
+var mapStyle = {
+  color: "white",
+  fillColor: "pink",
+  fillOpacity: 0.5,
+  weight: 1.5
+};
+
+d3.json("static/resource/all_us_diocese.json", function(data) {
+  // Creating a GeoJSON layer with the retrieved data
+  var coords;
+  console.log(data.features.dioceses)
+  for (var i=0; i<data.features.dioceses.length; i++) {
+  		L.polygon(data.features.dioceses[i].geometry.coordinates, {
+  			color: "grey",
+  			fillColor: "yellow",
+  			fillOpacity: 0.5,
+  			weight: 1
+		}).addTo(map);
+   }
+});
